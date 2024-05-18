@@ -1,0 +1,22 @@
+{
+    "A":{
+        "outputType": "text",
+        "outputValue": "Apple",
+        "typingDelay": 0.1,
+        "durationStart": 0,
+        "durationEnd": 1
+    },
+    "B": {
+        "type": "script",
+        "import": "script.py",
+        "durationStart":0,
+        "durationEnd": 1
+    },
+    "C": {
+        "type": "text",
+        "value": "Cat",
+        "typingDelay": 0.1,
+        "durationStart": 1,
+        "durationEnd": 2
+    }
+}
