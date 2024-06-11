@@ -36,6 +36,7 @@ def on_press(key):
             print(f"Special key pressed: {key}")
         else:
             print(f"Pressed:  {key}")
+            
 
 def on_release(key):
     global pressTimes, key_states
@@ -49,7 +50,6 @@ def on_release(key):
             print(f"Released: {key}, duration: {duration:.2f}")
         del pressTimes[key]
     key_states[key] = False
-
 def is_special_key(key):
     # List of special keys
     special_keys = ["shift", "ctrl", "alt", "space", "enter", "tab", "backspace", 
@@ -64,5 +64,5 @@ keyboard.hook(lambda e: on_action(e))
 
 print("Press ESC to stop.")
 
-if __name__ == "__main__":
-    print("hello world")
+while True:
+    time.sleep(0.1)

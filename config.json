@@ -3,8 +3,8 @@
         "outputType": "text",
         "outputValue": "Apple",
         "typingDelay": 0.1,
-        "durationStart": 0,
-        "durationEnd": 1
+        "durationStart": 1,
+        "durationEnd": 2
     },
     "B": {
         "type": "script",
