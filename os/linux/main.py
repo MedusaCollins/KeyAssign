@@ -16,6 +16,6 @@ if __name__ == "__main__":
         capture_process.join()
         actions_process.join()
     except KeyboardInterrupt:
-        print("Keyboard interrupt received, exiting from the program");
+        print("Keyboard interrupt received, exiting from the program.");
         capture_process.terminate()
         actions_process.terminate()
