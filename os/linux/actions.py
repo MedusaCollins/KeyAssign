@@ -3,30 +3,49 @@ import os
 import time
 import keyboard
 import subprocess
+import sys
 
-config_file_path = os.path.join(os.path.dirname(__file__), '../../config.json')
+# Path to the 'utils' directory
+currentDir = os.path.dirname(os.path.abspath(__file__))
+configFilePath = os.path.join(currentDir, '../../config.json')
+utilsDir = os.path.join(currentDir, '../../utils')
+sys.path.append(utilsDir)
+import runScript
 
-with open(config_file_path, 'r') as f:
+
+
+with open(configFilePath, 'r') as f:
     config = json.load(f)
 
-def process_key_events(queue):
+def processKeyEvents(queue):
     while True:
         event = queue.get()
         if event:
-            key, action, timestamp_or_duration = event
+            key, action, timestampOrDuration = event
             if action == 'pressed':
                 print(f"Key {key} pressed.")
             elif action == 'released':
                 if key in config:
                     item = config[key]
-                    if item['durationStart'] <= timestamp_or_duration <= item['durationEnd']:
+                    if item['durationStart'] <= timestampOrDuration <= item['durationEnd']:
                         if item['outputType'] == 'text':
-                            typing_delay = item.get('typingDelay', 0.1)
+                            typingDelay = item.get('typingDelay', 0.1)
                             for char in item['outputValue']:
                                 keyboard.press(char)
-                                time.sleep(typing_delay)
+                                time.sleep(typingDelay)
                                 keyboard.release(char)
                         elif item['outputType'] == 'script':
-                            script_path = item.get('import')
-                            if script_path:
-                                subprocess.run(['node', f"imports/{script_path}"])
+                            scriptPath = item.get('import')
+                            if scriptPath:
+                                runScript.runScript(scriptPath)
+
+if __name__ == "__main__":
+    import multiprocessing
+    import keyCaptures
+
+    queue = multiprocessing.Queue()
+    captureProcess = multiprocessing.Process(target=keyCaptures.startKeyCapture, args=(queue,))
+    captureProcess.start()
+
+    processKeyEvents(queue)
+    captureProcess.join()

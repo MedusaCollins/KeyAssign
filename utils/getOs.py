@@ -1,5 +1,5 @@
 import platform
-def get_os():
+def getOs():
     os = platform.system()
     if os in ["Windows", "Darwin", "Linux"]:
         if os == "Darwin":
