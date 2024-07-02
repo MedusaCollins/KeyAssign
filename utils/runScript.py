@@ -10,6 +10,6 @@ def runScript(scriptPath):
     extension = scriptPath.split('.')[1]
     if extension in supportedLanguage:
         language = supportedLanguage[extension]
-        subprocess.run([language, 'imports/' + scriptPath])
+        subprocess.run([language, 'plugins/' + scriptPath])
     else:
         print(f"Unsupported file extension: {extension}")

@@ -12,8 +12,6 @@ utilsDir = os.path.join(currentDir, '../../utils')
 sys.path.append(utilsDir)
 import runScript
 
-
-
 with open(configFilePath, 'r') as f:
     config = json.load(f)
 
@@ -24,17 +22,19 @@ def processKeyEvents(queue):
             key, action, timestampOrDuration = event
             if action == 'pressed':
                 print(f"Key {key} pressed.")
+                if key in config:
+                    item = config[key]
             elif action == 'released':
                 if key in config:
                     item = config[key]
-                    if item['durationStart'] <= timestampOrDuration <= item['durationEnd']:
-                        if item['outputType'] == 'text':
+                    if item['durationBetween'][0] <= timestampOrDuration <= item['durationBetween'][1]:
+                        if item['type'] == 'text':
                             typingDelay = item.get('typingDelay', 0.1)
-                            for char in item['outputValue']:
+                            for char in item['value']:
                                 keyboard.press(char)
                                 time.sleep(typingDelay)
                                 keyboard.release(char)
-                        elif item['outputType'] == 'script':
+                        elif item['type'] == 'script':
                             scriptPath = item.get('import')
                             if scriptPath:
                                 runScript.runScript(scriptPath)
