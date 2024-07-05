@@ -1,6 +1,7 @@
 import multiprocessing
 import keyCaptures
 import actions
+import sys
 
 if __name__ == "__main__":
     try:
@@ -10,7 +11,7 @@ if __name__ == "__main__":
         capture_process.start()
         
         # actions process start
-        actions_process = multiprocessing.Process(target=actions.processKeyEvents, args=(queue,))
+        actions_process = multiprocessing.Process(target=actions.processKeyEvents, args=(queue, sys.argv))
         actions_process.start()
         
         capture_process.join()

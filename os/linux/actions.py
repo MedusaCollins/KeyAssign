@@ -5,17 +5,28 @@ import keyboard
 import subprocess
 import sys
 
+# print(sys.argv)
 # Path to the 'utils' directory
-currentDir = os.path.dirname(os.path.abspath(__file__))
-configFilePath = os.path.join(currentDir, '../../config.json')
-utilsDir = os.path.join(currentDir, '../../utils')
-sys.path.append(utilsDir)
-import runScript
+def getConfigName(args):
+    # print(args[2])
+    if len(args) > 1 and args[1] == '-c':
+        return args[2]
+    return "config.json"
 
-with open(configFilePath, 'r') as f:
-    config = json.load(f)
-
-def processKeyEvents(queue):
+def processKeyEvents(queue, args):
+    # print(args)
+    # print(getConfigName(args))
+    currentDir = os.path.dirname(os.path.abspath(__file__))
+    configFilePath = os.path.join(currentDir, '../../' + getConfigName(args))
+    utilsDir = os.path.join(currentDir, '../../utils')
+    from runScript import runScript 
+    sys.path.append(utilsDir)
+    try:
+        with open(configFilePath, 'r') as f:
+            config = json.load(f)
+    except FileNotFoundError:
+        print("Invalid JSON in config file.")
+        sys.exit(1);
     while True:
         event = queue.get()
         if event:
@@ -37,12 +48,11 @@ def processKeyEvents(queue):
                         elif item['type'] == 'script':
                             scriptPath = item.get('import')
                             if scriptPath:
-                                runScript.runScript(scriptPath)
+                                runScript(scriptPath)
 
 if __name__ == "__main__":
     import multiprocessing
     import keyCaptures
-
     queue = multiprocessing.Queue()
     captureProcess = multiprocessing.Process(target=keyCaptures.startKeyCapture, args=(queue,))
     captureProcess.start()
