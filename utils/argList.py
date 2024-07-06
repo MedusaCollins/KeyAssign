@@ -1,16 +1,12 @@
 from utils.runOsCode import runOsCode
+from utils.getOs import getOs
 import os
 import json
 import sys
 import jwt
 
-def force(args):
-    runOsCode("linux", args)
 def config(args):
-    if args.c:
-        runOsCode("linux", args)
-    else:
-        print("This feature is in progress.")
+    runOsCode(getOs(args), args)
 
 def upload(args):
     currentDir = os.path.dirname(os.path.abspath(__file__))

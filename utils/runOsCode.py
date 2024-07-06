@@ -1,20 +1,9 @@
 import subprocess
-import sys
-import os
+from utils.handleBloat import isHaveArgs
 
-def isForced(args, os_name):
-    if hasattr(args, 'f') and args.f:
-        return f"os/linux/main.py"
-    return f"os/{os_name}/main.py"
-
-def isHaveArgs(args):
-    if args is not None:
-        return sys.argv[1:]
-    return []
-
-def runOsCode(os_name, args=None):
-    if os_name != "unknown":
-        command = ["python", isForced(args, os_name)] + isHaveArgs(args)
+def runOsCode(osName, args=None):
+    if osName != "unknown":
+        command = ["python", f"os/{osName}/main.py"] + isHaveArgs(args)
         subprocess.run(command)
     else:
         print("Program does not support this OS right now. You can try starting with '-f' to proceed, although it may run into errors.")

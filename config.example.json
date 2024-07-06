@@ -3,7 +3,6 @@
     "type": "text",
     "value": "typing a.",
     "typingDelay": 0.01,
-    "repeatPress": true,
     "durationBetween": [
       0,
       1
@@ -13,7 +12,6 @@
     "type": "text",
     "value": "typing b.",
     "typingDelay": 0.1,
-    "repeatPress": false,
     "durationBetween": [
       0,
       1

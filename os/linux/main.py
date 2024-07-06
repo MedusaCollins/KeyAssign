@@ -7,16 +7,16 @@ if __name__ == "__main__":
     try:
         queue = multiprocessing.Queue()
         # keyCaptures process start
-        capture_process = multiprocessing.Process(target=keyCaptures.startKeyCapture, args=(queue,))
-        capture_process.start()
+        captureProcess = multiprocessing.Process(target=keyCaptures.startKeyCapture, args=(queue, sys.argv))
+        captureProcess.start()
         
         # actions process start
-        actions_process = multiprocessing.Process(target=actions.processKeyEvents, args=(queue, sys.argv))
-        actions_process.start()
+        actionsProcess = multiprocessing.Process(target=actions.processKeyEvents, args=(queue, sys.argv))
+        actionsProcess.start()
         
-        capture_process.join()
-        actions_process.join()
+        captureProcess.join()
+        actionsProcess.join()
     except KeyboardInterrupt:
         print("Keyboard interrupt received, exiting from the program.");
-        capture_process.terminate()
-        actions_process.terminate()
+        captureProcess.terminate()
+        actionsProcess.terminate()

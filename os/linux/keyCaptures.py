@@ -1,45 +1,28 @@
 import keyboard
 import time
-import os
-import json
 import sys
-# Path to the 'utils' directory
-currentDir = os.path.dirname(os.path.abspath(__file__))
-configFilePath = os.path.join(currentDir, '../../config.json')
-utilsDir = os.path.join(currentDir, '../../utils')
-sys.path.append(utilsDir)
-import runScript
+import os
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__))+'/../../utils')
+from handleBloat import readConfig
 
-with open(configFilePath, 'r') as f:
-    config = json.load(f)
-# Pressed key timestamps are stored in a dictionary
 pressTimes = {}
-# Key status is stored in a dictionary
 keyStatus = {}
 
 def onKeyEvent(event, queue):
     if event.event_type == 'down' and not keyStatus.get(event.name, False) and event.name in config:
-        # Key pressed, store the timestamp
         pressTimes[event.name] = time.time()
         queue.put((event.name, 'pressed', pressTimes[event.name]))
-        if 'repeatPress' in config[event.name] and config[event.name]['repeatPress']:
-            keyStatus[event.name] = True
-            keyboard.send('backspace')
-            # keyboard.send(event.name)
-    elif event.event_type == 'up':
-        # Key released, calculate the duration
+        keyStatus[event.name] = True
+        keyboard.send('backspace')
+    elif event.event_type == 'up' and event.name in pressTimes:
         releaseTime = time.time()
-        if event.name in pressTimes:
-            pressTime = pressTimes.pop(event.name)
-            duration = releaseTime - pressTime
-            keyStatus[event.name] = False
-            queue.put((event.name, 'released', duration))
-        else:
-            if event.name in config and 'repeatPress' in config[event.name] and config[event.name]['repeatPress']:
-                # keyboard.send(event.name)
-                #keyboard.release(event.name)
-                print("test")
+        pressTime = pressTimes.pop(event.name)
+        duration = releaseTime - pressTime
+        keyStatus[event.name] = False
+        queue.put((event.name, 'released', duration))
 
-def startKeyCapture(queue):
+def startKeyCapture(queue, args):
+    global config
+    config = readConfig(args)
     keyboard.hook(lambda event: onKeyEvent(event, queue))
     keyboard.wait('esc')
