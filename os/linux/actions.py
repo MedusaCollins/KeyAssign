@@ -15,19 +15,22 @@ def processKeyEvents(queue, args):
         if event:
             key, action, timestampOrDuration = event
             if key in config:
-                item = config[key]
-                if action == 'released' and item['durationBetween'][0] <= timestampOrDuration <= item['durationBetween'][1]:
-                    if item['type'] == 'text':
-                        typingDelay = item.get('typingDelay', 0)
-                        for char in item['value']:
-                            keyboard.press(char)
-                            time.sleep(typingDelay)
-                            keyboard.release(char)
-                    else:
-                        scriptPath = item.get('import')
-                        if scriptPath:
-                            runPlugin(scriptPath)
-                elif action == 'released' and item['durationBetween'][0] > timestampOrDuration or action == 'released' and item['durationBetween'][1] < timestampOrDuration:
+                items = config[key]
+                actionExecuted = False
+                for item in items:
+                    if action == 'released' and item['durationBetween'][0] <= timestampOrDuration <= item['durationBetween'][1]:
+                        actionExecuted = True
+                        if "typingValue" in item:
+                            typingDelay = item.get('typingDelay', 0)
+                            for char in item['typingValue']:
+                                keyboard.press(char)
+                                time.sleep(typingDelay)
+                                keyboard.release(char)
+                        else:
+                            scriptPath = item.get('import')
+                            if scriptPath:
+                                runPlugin(scriptPath)
+                if not actionExecuted:
                     keyboard.press(key)
                     keyboard.release(key)
 

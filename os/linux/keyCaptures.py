@@ -25,4 +25,3 @@ def startKeyCapture(queue, args):
     global config
     config = readConfig(args)
     keyboard.hook(lambda event: onKeyEvent(event, queue))
-    keyboard.wait('esc')
