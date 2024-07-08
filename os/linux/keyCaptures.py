@@ -9,6 +9,7 @@ pressTimes = {}
 keyStatus = {}
 
 def onKeyEvent(event, queue):
+
     if event.event_type == 'down' and not keyStatus.get(event.name, False) and event.name in config:
         pressTimes[event.name] = time.time()
         queue.put((event.name, 'pressed', pressTimes[event.name]))
@@ -20,8 +21,10 @@ def onKeyEvent(event, queue):
         duration = releaseTime - pressTime
         keyStatus[event.name] = False
         queue.put((event.name, 'released', duration))
+        keyboard.send('backspace')
 
 def startKeyCapture(queue, args):
     global config
     config = readConfig(args)
     keyboard.hook(lambda event: onKeyEvent(event, queue))
+    keyboard.wait("esc")

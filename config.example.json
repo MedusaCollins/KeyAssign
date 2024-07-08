@@ -9,8 +9,28 @@
       ]
     },
     {
-      "typingValue": "typing a2.",
-      "typingDelay": 0,
+      "pressingValues": [
+        {
+          "key": "h",
+          "duration": 2
+        },
+        {
+          "key": "e",
+          "duration": 1
+        },
+        {
+          "key": "l",
+          "duration": 1
+        },
+        {
+          "key": "l",
+          "duration": 1
+        },
+        {
+          "key": "o",
+          "duration": 1
+        }
+      ],
       "durationBetween": [
         1,
         2

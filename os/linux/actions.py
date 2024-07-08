@@ -26,10 +26,16 @@ def processKeyEvents(queue, args):
                                 keyboard.press(char)
                                 time.sleep(typingDelay)
                                 keyboard.release(char)
-                        else:
+                        elif "import" in item:
                             scriptPath = item.get('import')
                             if scriptPath:
                                 runPlugin(scriptPath)
+                        elif "pressingValues" in item:
+                            pressingValues = item.get('pressingValues')
+                            for char in pressingValues:
+                                keyboard.press(char['key'])
+                                time.sleep(char['duration'])
+                                keyboard.release(char['key'])
                 if not actionExecuted:
                     keyboard.press(key)
                     keyboard.release(key)
