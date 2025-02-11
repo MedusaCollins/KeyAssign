@@ -1,84 +1,37 @@
 {
   "a": [
     {
-      "typingValue": "typing a1.",
-      "typingDelay": 0,
-      "durationBetween": [
-        0,
-        1
-      ]
+      "type": "typing",
+      "value": "typing a.",
+      "delay": 0,
+      "timing": {
+        "start": 0,
+        "end": 1
+      }
     },
     {
-      "pressingValues": [
-        {
-          "key": "h",
-          "duration": 2
-        },
-        {
-          "key": "e",
-          "duration": 1
-        },
-        {
-          "key": "l",
-          "duration": 1
-        },
-        {
-          "key": "l",
-          "duration": 1
-        },
-        {
-          "key": "o",
-          "duration": 1
-        }
+      "type": "pressing",
+      "keys": [
+        { "key": "h", "duration": 0.5 },
+        { "key": "e", "duration": 0.2 },
+        { "key": "l", "duration": 0.1 },
+        { "key": "l", "duration": 0.1 },
+        { "key": "o", "duration": 0.7 }
       ],
-      "durationBetween": [
-        1,
-        2
-      ]
-    }
-  ],
-  "b": [
-    {
-      "typingValue": "typing b1.",
-      "typingDelay": 0.1,
-      "durationBetween": [
-        0,
-        1
-      ]
-    },
-    {
-      "typingValue": "typing b2.",
-      "typingDelay": 0,
-      "durationBetween": [
-        1,
-        2
-      ]
-    },
-    {
-      "typingValue": "typing b3.",
-      "typingDelay": 0.1,
-      "durationBetween": [
-        2,
-        3
-      ]
+      "timing": {
+        "start": 1,
+        "end": 2
+      }
     }
   ],
   "p": [
     {
-      "import": "python.py",
-      "durationBetween": [
-        0,
-        1
-      ]
-    }
-  ],
-  "j": [
-    {
-      "import": "javascript.js",
-      "durationBetween": [
-        0,
-        1
-      ]
+      "type": "import",
+      "name": "python.py",
+      "timing": {
+        "start": 0,
+        "end": 1
+      }
     }
   ]
 }
